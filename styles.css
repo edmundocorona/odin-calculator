@@ -10,6 +10,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: #145E5F;
+  color: #fefefe;
+  font-family: 'Roboto Mono', monospace;
 }
 
 #header {
@@ -25,8 +28,7 @@ h1 {
 }
 
 #content {
-  background-color: #2a2a2a;
-  font-family: 'Roboto Mono', monospace;
+  background-color: #72D3D8;
   font-size: 16pt;
   display: flex;
   flex: 1;
@@ -37,12 +39,12 @@ h1 {
 #calculator {
   max-width: 320px;
   padding: 4px;
-  background-color: #4a4a4a;
+  background-color: #332D29;
   box-sizing: border-box;
 }
 
 #display-border {
-  background-color: rgb(14, 14, 14);
+  background-color: #2B1B11;
   padding: 16px;
 }
 
@@ -54,7 +56,7 @@ h1 {
 }
 
 #pad {
-  background-color: rgb(139, 139, 139);
+  background-color: rgb(162, 157, 157);
   padding: 16px;
   display: flex;
   gap: 10px;
@@ -73,4 +75,18 @@ h1 {
 button {
   min-width: 40px;
   min-height: 40px;
+  color: #fefefe;
+}
+
+.number {
+  background-color: #32261E;
+}
+
+.operator,
+.option {
+  background-color: #504740;
+}
+
+#C {
+  background-color: #aa5924;
 }
