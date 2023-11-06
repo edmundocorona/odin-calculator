@@ -35,11 +35,8 @@ h1 {
 }
 
 #calculator {
-  display: flex;
-  flex-direction: column;
   max-width: 320px;
   padding: 4px;
-  gap: 4px;
   background-color: #4a4a4a;
   box-sizing: border-box;
 }
@@ -61,43 +58,19 @@ h1 {
   padding: 16px;
   display: flex;
   gap: 10px;
+  margin-top: 4px;
+  justify-content: space-around;
 }
 
-#first-col {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-#options,
-.number-row {
-  display: flex;
-  gap: 10px;
-}
-
-#numbers {
+#left,
+#right {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-}
-
-#operators,
-#operators-extra {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 10px;
+  justify-content: space-around;
 }
 
 button {
-  min-width: 48px;
-  min-height: 48px;
-}
-
-#add {
-  flex: 1;
-}
-
-#zero {
-  flex: 1;
+  min-width: 40px;
+  min-height: 40px;
 }
