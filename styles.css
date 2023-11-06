@@ -1,8 +1,103 @@
 body {
-  background-color: #ededed;
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+#header,
+#footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#header {
+  height: 64px;
+}
+
+#footer {
+  height: 32px;
+}
+
+h1 {
+  margin: 0;
+}
+
+#content {
+  background-color: #2a2a2a;
   font-family: 'Roboto Mono', monospace;
+  font-size: 16pt;
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+}
+
+#calculator {
+  display: flex;
+  flex-direction: column;
+  max-width: 320px;
+  padding: 4px;
+  gap: 4px;
+  background-color: #4a4a4a;
+  box-sizing: border-box;
+}
+
+#display-border {
+  background-color: rgb(14, 14, 14);
+  padding: 16px;
 }
 
 #display {
+  background-color: rgb(205, 221, 198);
   font-family: 'Inconsolata', monospace;
+  font-size: 20pt;
+  text-align: right;
+}
+
+#pad {
+  background-color: rgb(139, 139, 139);
+  padding: 16px;
+  display: flex;
+  gap: 10px;
+}
+
+#first-col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#options,
+.number-row {
+  display: flex;
+  gap: 10px;
+}
+
+#numbers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+#operators,
+#operators-extra {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+button {
+  min-width: 48px;
+  min-height: 48px;
+}
+
+#add {
+  flex: 1;
+}
+
+#zero {
+  flex: 1;
 }
