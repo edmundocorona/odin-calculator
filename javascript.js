@@ -55,6 +55,9 @@ const clearInput = function () {
   if (typeof toggleBtn !== "undefined") {
     eraseC();
   }
+  if (hist.length > 0 && operations.length === 0) {
+    eraseC();
+  }
 }
 
 const concatNumber = function (number) {
