@@ -1,78 +1,7 @@
-console.log('hola');
-
-const equation = [];
-const hist = [];
-let displayNum = 0;
-const displayDOM = document.querySelector('#display');
-let toggle;
-
-const add = function () {
-  equation.push(displayNum, '+')
-}
-
-const subtract = function () {
-  equation.push(displayNum, '-')
-}
-
-const multiply = function () {
-  equation.push(displayNum, '*')
-}
-
-const divide = function () {
-  equation.push(displayNum, '/')
-}
-
-const equals = function () {
-  if (equation.length > 1) {
-    equation.push(displayDOM.textContent);
-    console.log('a');
-  } else if (hist.length > 0) {
-    lastOPeration = hist[hist.length - 1]; 
-    equation.push(displayDOM.textContent, lastOPeration[1], lastOPeration[2]);
-    console.log('b');
-  } else {
-    console.log('c');
-    console.log("what's wrong")
-    return displayDOM.textContent;
-  }
-  console.log('d');
-  return evalEquation();
-}
-
-const evalEquation = function () {
-  let result;
-  switch (equation[1]) {
-    case '+':
-      result = (+ equation[0]) + (+ equation[2]);
-      break;
-    case '-':
-      result = equation[0] - equation[2];
-      break;
-    case 'x':
-      result = equation[0] * equation[2];
-      break;
-    case '÷':
-      result = equation[0] / equation[2];
-      break;
-    default:
-      console.log("ERROR, this operand doesn't match");
-  }
-  hist.push(equation.splice(0, 3).concat(['=', result]));
-  displayNum = result;
-  return result;
-}
-
-const eraseC = function () {
-  displayNum = 0;
-}
-
-const eraseAC = function () {
-  hist.splice(0);
-  equation.splice(0);
-  eraseC();
-}
-
 const buttons =  document.querySelectorAll('button');
+const display = document.querySelector('#display');
+const operations = [];
+const hist = [];
 
 buttons.forEach(button => {
   button.addEventListener('click', () => {
@@ -83,45 +12,91 @@ buttons.forEach(button => {
         concatNumber(btnText);
         break;
       case 'option':
-        editState(btnText)
+        editState(btnText);
         break;
       case 'operator':
-        toggle = button;
-        callOperation(btnText)
+        queueOperation(btnText);
+        break;
+      case 'dot':
+        concatDot();
+        break;
+      case 'single-operator':
+        singleOperation(btnText);
+        break;
+      case 'equal':
+        equal();
         break;
       default:
         console.log(btnClass);
     }
+    console.log(operations);
+    console.table(hist);
   })
 });
 
 const concatNumber = function (number) {
-  if (number !== '.') {
-    if (displayDOM.textContent !== '0') {
-      displayDOM.textContent += number;
-    } else  if (number !== '0' && number !== '00') {
-      displayDOM.textContent = number;
-    }
-  } else if (!displayDOM.textContent.includes('.')) {
-    displayDOM.textContent += '.';
-  }
-}
-
-const editState = function (option) {
-  console.log(option, 'o')
-}
-
-const callOperation = function (operator) {
-  console.log(operator, 'op')
-  if (operator === '=') {
-    displayDOM.textContent = equals();
-  } else if (operator === '√') {
-    console.log('raiz');
+  if (display.textContent === '0') {
+    display.textContent = number !== '00' ? number : '0';
   } else {
-    equation.push(displayDOM.textContent, operator)
+    display.textContent += number;
   }
+}
 
-  if (equation.length > 2) {
-    displayDOM.textContent = evalEquation();
+const concatDot = function() {
+  if (!display.textContent.includes('.')) {
+    display.textContent += '.';
+  }
+}
+
+const queueOperation = function(operator) {
+  if (operations.length > 1) {
+    operations.push(display.textContent);
+    display.textContent = reduceOperations();
+  }
+  operations.push(display.textContent, operator);
+}
+
+const reduceOperations = function () {
+  const result = calcResult();
+  hist.push(operations.splice(0, 3).concat(['=', result]));
+  return result;
+}
+
+const calcResult = function () {
+  const arithmetic = {
+    '+': add,
+    '-': subtract,
+    '/': divide,
+    '÷': divide,
+    'x': multiply,
+    '*': multiply,
+  };
+  return arithmetic[operations[1]]();
+}
+
+const add = function () {
+  return (+ operations[0]) + (+ operations[2]);
+}
+
+const subtract = function () {
+  return operations[0] - operations[2];
+}
+
+const divide = function () {
+  return operations[0] / operations[2];
+}
+
+const multiply = function () {
+  return operations[0] * operations[2];
+}
+
+const equal = function () {
+  if (operations.length > 1) {
+    operations.push(display.textContent);
+    display.textContent = reduceOperations();
+  } else if (hist.length > 0) {
+    const lastOperation = hist[hist.length - 1];
+    operations.push(display.textContent, lastOperation[1], lastOperation[2]);
+    display.textContent = reduceOperations();
   }
 }

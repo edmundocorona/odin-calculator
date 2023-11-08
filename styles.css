@@ -78,11 +78,14 @@ button {
   color: #fefefe;
 }
 
-.number {
+.number,
+.dot {
   background-color: #32261E;
 }
 
 .operator,
+.single-operator,
+.equal,
 .option {
   background-color: #504740;
 }
