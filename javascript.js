@@ -90,13 +90,38 @@ const multiply = function () {
   return operations[0] * operations[2];
 }
 
+const square = function () {
+  const result = Math.sqrt(Number(display.textContent));
+  operations.splice(0);
+  hist.push(['²', '√', display.textContent, '=', result]);
+  return result;
+}
+
+const sign = function () {
+  return (-1) * display.textContent;
+}
+
 const equal = function () {
   if (operations.length > 1) {
     operations.push(display.textContent);
     display.textContent = reduceOperations();
   } else if (hist.length > 0) {
     const lastOperation = hist[hist.length - 1];
-    operations.push(display.textContent, lastOperation[1], lastOperation[2]);
-    display.textContent = reduceOperations();
+    let result;
+    if (lastOperation[1] === '√') {
+      result = square();
+    } else {
+      operations.push(display.textContent, lastOperation[1], lastOperation[2]);
+      result = reduceOperations();
+    }
+    display.textContent = result;
   }
+}
+
+const singleOperation = function (operator) {
+  const operators = {
+    '√': square,
+    '+/-': sign,
+  }
+  display.textContent = operators[operator]();
 }
