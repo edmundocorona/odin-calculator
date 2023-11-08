@@ -83,6 +83,10 @@ button {
   background-color: #32261E;
 }
 
+#C {
+  background-color: #aa5924;
+}
+
 .operator,
 .single-operator,
 .equal,
@@ -90,6 +94,19 @@ button {
   background-color: #504740;
 }
 
-#C {
-  background-color: #aa5924;
+.number:hover,
+.dot:hover {
+  background-color: #503D30;
+}
+
+#C:hover {
+  background-color: #C8692A;
+}
+
+.operator:hover,
+.operator-hover,
+.single-operator:hover,
+.equal:hover,
+.option:hover {
+  background-color: #6C6057;
 }

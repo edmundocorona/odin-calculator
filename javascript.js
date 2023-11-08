@@ -2,6 +2,7 @@ const buttons =  document.querySelectorAll('button');
 const display = document.querySelector('#display');
 const operations = [];
 const hist = [];
+let toggleBtn;
 
 buttons.forEach(button => {
   button.addEventListener('click', () => {
@@ -15,7 +16,14 @@ buttons.forEach(button => {
         editState(btnText);
         break;
       case 'operator':
-        queueOperation(btnText);
+        if (typeof toggleBtn === "undefined") {
+          queueOperation(btnText);
+        } else {
+          clearToggle();
+          operations[operations.length - 1] = btnText;
+        }
+        toggleBtn = button;
+        toggleBtn.classList.toggle("operator-hover");
         break;
       case 'dot':
         concatDot();
@@ -29,12 +37,28 @@ buttons.forEach(button => {
       default:
         console.log(btnClass);
     }
+    if (btnClass !== 'operator' && btnText !== '+/-' && typeof toggleBtn !== "undefined") {
+      clearToggle();
+    }
     console.log(operations);
     console.table(hist);
+    console.log(toggle, toggleBtn);
   })
 });
 
+const clearToggle = function () {
+  toggleBtn.classList.toggle("operator-hover");
+  toggleBtn = undefined;
+}
+
+const clearInput = function () {
+  if (typeof toggleBtn !== "undefined") {
+    eraseC();
+  }
+}
+
 const concatNumber = function (number) {
+  clearInput();
   if (display.textContent === '0') {
     display.textContent = number !== '00' ? number : '0';
   } else {
@@ -43,6 +67,7 @@ const concatNumber = function (number) {
 }
 
 const concatDot = function() {
+  clearInput();
   if (!display.textContent.includes('.')) {
     display.textContent += '.';
   }
@@ -124,4 +149,43 @@ const singleOperation = function (operator) {
     '+/-': sign,
   }
   display.textContent = operators[operator]();
+}
+
+const editState = function (option) {
+  const options = {
+    'C': eraseC,
+    'AC': eraseAC,
+    'Hist': showHist,
+    '˄': upHist,
+    '˅': downHist,
+    '←': eraseDel,
+  }
+  options[option]();
+}
+
+const eraseC = function () {
+  display.textContent = '0';
+}
+
+const eraseAC = function () {
+  operations.splice(0);
+  hist.splice(0);
+  eraseC();
+}
+
+const showHist = function () {
+  console.log('on fix');
+}
+
+const upHist = function () {
+  console.log('on fix');
+}
+
+const downHist = function () {
+  console.log('on fix');
+}
+
+const eraseDel = function () {
+  const text = display.textContent;
+  display.textContent = text.length > 1 ? text.substring(0, text.length - 1) : '0';
 }
