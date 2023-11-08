@@ -174,10 +174,10 @@ const eraseC = function () {
 }
 
 const eraseAC = function () {
+  exitHistMode();
   operations.splice(0);
   hist.splice(0);
   eraseC();
-  exitHistMode();
 }
 
 const setHistMode = function () {
@@ -194,8 +194,10 @@ const showHist = function () {
   if (histMode) {
     if (typeof indexHist === "undefined") {
       indexHist = 0;
+      display.textContent = hist[indexHist].join(' ');
+    } else {
+      exitHistMode();
     }
-    display.textContent = hist[indexHist];
   }
 }
 
@@ -206,7 +208,7 @@ const upHist = function () {
       indexHist = hist.length;
     }
     indexHist = indexHist > 0 ? indexHist - 1 : 0;
-    display.textContent = hist[indexHist];
+    display.textContent = hist[indexHist].join(' ');
   }
 }
 
@@ -214,15 +216,15 @@ const downHist = function () {
   if (histMode) {
     indexHist = indexHist < hist.length - 1 ? indexHist + 1 : hist.length;
     if (indexHist === hist.length) {
-      display.textContent = mem;
       exitHistMode();
     } else {
-      display.textContent = hist[indexHist];
+      display.textContent = hist[indexHist].join(' ');
     }
   }
 }
 
 const exitHistMode = function () {
+  display.textContent = mem;
   histMode = false;
   mem = undefined;
   indexHist = undefined;
