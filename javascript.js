@@ -3,6 +3,9 @@ const display = document.querySelector('#display');
 const operations = [];
 const hist = [];
 let toggleBtn;
+let mem;
+let histMode = false;
+let indexHist;
 
 buttons.forEach(button => {
   button.addEventListener('click', () => {
@@ -42,7 +45,7 @@ buttons.forEach(button => {
     }
     console.log(operations);
     console.table(hist);
-    console.log(toggle, toggleBtn);
+    console.log(toggleBtn);
   })
 });
 
@@ -174,18 +177,55 @@ const eraseAC = function () {
   operations.splice(0);
   hist.splice(0);
   eraseC();
+  exitHistMode();
+}
+
+const setHistMode = function () {
+  if (!histMode) {
+    mem = display.textContent;
+  }
+  if (hist.length > 0) {
+    histMode = true;
+  }
 }
 
 const showHist = function () {
-  console.log('on fix');
+  setHistMode();
+  if (histMode) {
+    if (typeof indexHist === "undefined") {
+      indexHist = 0;
+    }
+    display.textContent = hist[indexHist];
+  }
 }
 
 const upHist = function () {
-  console.log('on fix');
+  setHistMode();
+  if (histMode) {
+    if (typeof indexHist === "undefined") {
+      indexHist = hist.length;
+    }
+    indexHist = indexHist > 0 ? indexHist - 1 : 0;
+    display.textContent = hist[indexHist];
+  }
 }
 
 const downHist = function () {
-  console.log('on fix');
+  if (histMode) {
+    indexHist = indexHist < hist.length - 1 ? indexHist + 1 : hist.length;
+    if (indexHist === hist.length) {
+      display.textContent = mem;
+      exitHistMode();
+    } else {
+      display.textContent = hist[indexHist];
+    }
+  }
+}
+
+const exitHistMode = function () {
+  histMode = false;
+  mem = undefined;
+  indexHist = undefined;
 }
 
 const eraseDel = function () {
