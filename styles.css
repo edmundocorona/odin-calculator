@@ -55,6 +55,15 @@ h1 {
   text-align: right;
 }
 
+#hist-display {
+  background-color: rgb(205, 221, 198);
+  font-family: 'Inconsolata', monospace;
+  font-size: 14pt;
+  text-align: right;
+  min-height: 19.5px;
+  padding-right: 1ex;
+}
+
 #pad {
   background-color: rgb(162, 157, 157);
   padding: 16px;

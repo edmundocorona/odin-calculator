@@ -1,5 +1,6 @@
 const buttons =  document.querySelectorAll('button');
 const display = document.querySelector('#display');
+const histDisplay = document.querySelector('#hist-display')
 const operations = [];
 const hist = [];
 let toggleBtn;
@@ -48,9 +49,10 @@ const manageInput = function (button) {
   if (btnClass !== 'operator' && btnText !== '+/-' && typeof toggleBtn !== "undefined") {
     clearToggle();
   }
-  // console.log(operations);
-  // console.table(hist);
-  // console.log(toggleBtn);
+  if (histMode && btnText !== 'Hist' && btnText !== '˄' && btnText !== '˅') {
+    mem = display.textContent;
+    exitHistMode();
+  }
 }
 
 const clearToggle = function () {
@@ -198,11 +200,17 @@ const showHist = function () {
   if (histMode) {
     if (typeof indexHist === "undefined") {
       indexHist = 0;
-      display.textContent = hist[indexHist].join(' ');
+      updateDisplayHist();
     } else {
       exitHistMode();
     }
   }
+}
+
+const updateDisplayHist = function () {
+  const operationHist = hist[indexHist];
+  histDisplay.textContent = operationHist.slice(0, operationHist.length - 1).join(' ');
+  display.textContent = operationHist[operationHist.length - 1];
 }
 
 const upHist = function () {
@@ -212,7 +220,7 @@ const upHist = function () {
       indexHist = hist.length;
     }
     indexHist = indexHist > 0 ? indexHist - 1 : 0;
-    display.textContent = hist[indexHist].join(' ');
+    updateDisplayHist();
   }
 }
 
@@ -222,7 +230,7 @@ const downHist = function () {
     if (indexHist === hist.length) {
       exitHistMode();
     } else {
-      display.textContent = hist[indexHist].join(' ');
+      updateDisplayHist();
     }
   }
 }
@@ -232,6 +240,7 @@ const exitHistMode = function () {
   histMode = false;
   mem = undefined;
   indexHist = undefined;
+  histDisplay.textContent = '';
 }
 
 const eraseDel = function () {
