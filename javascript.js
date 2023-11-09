@@ -49,6 +49,46 @@ buttons.forEach(button => {
   })
 });
 
+const manageInput = function (button) {
+  const btnClass = button.className;
+  const btnText = button.textContent;
+  switch (btnClass) {
+    case 'number':
+      concatNumber(btnText);
+      break;
+    case 'option':
+      editState(btnText);
+      break;
+    case 'operator':
+      if (typeof toggleBtn === "undefined") {
+        queueOperation(btnText);
+      } else {
+        clearToggle();
+        operations[operations.length - 1] = btnText;
+      }
+      toggleBtn = button;
+      toggleBtn.classList.toggle("operator-hover");
+      break;
+    case 'dot':
+      concatDot();
+      break;
+    case 'single-operator':
+      singleOperation(btnText);
+      break;
+    case 'equal':
+      equal();
+      break;
+    default:
+      console.log(btnClass);
+  }
+  if (btnClass !== 'operator' && btnText !== '+/-' && typeof toggleBtn !== "undefined") {
+    clearToggle();
+  }
+  // console.log(operations);
+  // console.table(hist);
+  // console.log(toggleBtn);
+}
+
 const clearToggle = function () {
   toggleBtn.classList.toggle("operator-hover");
   toggleBtn = undefined;
@@ -234,3 +274,43 @@ const eraseDel = function () {
   const text = display.textContent;
   display.textContent = text.length > 1 ? text.substring(0, text.length - 1) : '0';
 }
+
+document.addEventListener('keydown', (event) => {
+  const allowKeys = {
+    'c': 'C',
+    'a': 'AC',
+    'escape': 'AC',
+    'h': 'hist',
+    'arrowup': 'up',
+    'arrowdown': 'down',
+    '9': 'nine',
+    '8': 'eight',
+    '7': 'seven',
+    '6': 'six',
+    '5': 'five',
+    '4': 'four',
+    '3': 'three',
+    '2': 'two',
+    '1': 'one',
+    '0': 'zero',
+    'backspace': 'back',
+    'm': 'minus',
+    's': 'minus',
+    '.': 'dot',
+    'r': 'sqrt',
+    's': 'sqrt',
+    'x': 'multiply',
+    '*': 'multiply',
+    '/': 'divide',
+    '-': 'subtract',
+    '+': 'add',
+    '=': 'equals',
+    'enter': 'equals',
+  };
+  const keyName = event.key;
+  const btnID = allowKeys[keyName.toLowerCase()];
+  if (typeof btnID !== "undefined") {
+    btnEquivalent = document.querySelector(`#${btnID}`);
+    manageInput(btnEquivalent);
+  }
+});
