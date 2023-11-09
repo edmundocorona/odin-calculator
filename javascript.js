@@ -9,43 +9,7 @@ let indexHist;
 
 buttons.forEach(button => {
   button.addEventListener('click', () => {
-    const btnClass = button.className;
-    const btnText = button.textContent;
-    switch (btnClass) {
-      case 'number':
-        concatNumber(btnText);
-        break;
-      case 'option':
-        editState(btnText);
-        break;
-      case 'operator':
-        if (typeof toggleBtn === "undefined") {
-          queueOperation(btnText);
-        } else {
-          clearToggle();
-          operations[operations.length - 1] = btnText;
-        }
-        toggleBtn = button;
-        toggleBtn.classList.toggle("operator-hover");
-        break;
-      case 'dot':
-        concatDot();
-        break;
-      case 'single-operator':
-        singleOperation(btnText);
-        break;
-      case 'equal':
-        equal();
-        break;
-      default:
-        console.log(btnClass);
-    }
-    if (btnClass !== 'operator' && btnText !== '+/-' && typeof toggleBtn !== "undefined") {
-      clearToggle();
-    }
-    console.log(operations);
-    console.table(hist);
-    console.log(toggleBtn);
+    manageInput(button);
   })
 });
 
